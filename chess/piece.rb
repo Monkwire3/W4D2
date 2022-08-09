@@ -1,5 +1,8 @@
+require_relative "stepable.rb"
 class Piece
 
+    attr_reader :color
+    #include Stepable
     def initialize(color, board, pos)
         @color = color
         @board = board
@@ -45,20 +48,22 @@ class Queen < Piece
 end
 
 class King < Piece
+    include Stepable
+
+    def valid_moves
+        deltas = [[1,0],[1,1],[0,1],[-1,0],[-1,1],[0,-1],[1,-1], [-1,-1]]
+        return get_valid_moves(deltas, @pos).map {|m| m if @board[m].color != @color && !move_into_check?(m)}.compact
+    end
 
 end
 
 
 class Knight < Piece
+    include Stepable
+
     def valid_moves
         deltas = [[-1, -2], [1, -2], [2, -1], [-2, -1], [-2, 1], [2, 1], [-1, 2], [1, 2]]
-
-        possible_moves = deltas.map do |pos|
-            x, y = pos[0], pos[1]
-            [x, y] if (x + @pos[0] <= 8 && y + @pos[1] <= 8 && x + @pos[0] >= 0 && y + @pos[1] >= 0)
-        end.compact
-
-        return possible_moves.each {|m| valid << @board[m].color != @color && !move_into_check?(m)}
+        return get_valid_moves(deltas, @pos).map {|m| m if @board[m].color != @color && !move_into_check?(m)}.compact
     end
 
 end
