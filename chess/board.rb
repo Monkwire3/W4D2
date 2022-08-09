@@ -3,6 +3,8 @@ require_relative "piece.rb"
 
 class Board
 
+    attr_accessor :grid
+
     def initialize
         @grid = Array.new(8) {Array.new(8)}
     end
@@ -15,6 +17,10 @@ class Board
         @grid[pos[1]][pos[0]] = piece
     end
 
+    def dup
+        return @grid.map {|el| el.is_a?(Array) ? el.dup : el}
+    end
+
 
     def move_piece(start_pos, end_pos)
         raise "can't move null piece" if self[start_pos].is_a?(NullPiece)
@@ -23,6 +29,10 @@ class Board
         piece = self[start_pos] # grid[0,0] = nil
         self[end_pos] = piece
         self[start_pos] = nil # should be a new Null Piece
+    end
+
+    def print_board
+        puts @grid.map {|row| row.join(" ")}
     end
 
 end
@@ -36,11 +46,23 @@ b = Board.new
 #b[[2,1]]=knight3
 king = King.new(:W, b, [0,0])
 b[[0,0]]=king
-p b
-p b[[0,0]]
-p '========'
-p b[[0,1]]
-b.move_piece([0,0],[0,1])
-p b
-p king.valid_moves
+b.print_board
+#p b[[0,0]]
+#p '========'
+#p b[[0,1]]
+#b.move_piece([0,0],[0,1])
+#p b
+#p king.valid_moves
+p "===-=-=-=-=-=-=-="
+b2 = Board.new
+b2.grid = b.dup
+b2.print_board
+
+b2[[0,0]] = Knight.new(:W, b2, [0, 0])
+b2[[4, 4]] = Knight.new(:B, b2, [4, 4])
+
+b.print_board
+b2.print_board
+
+
 #p knight.valid_moves
