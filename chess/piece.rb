@@ -60,6 +60,16 @@ class Rook < Piece
 end
 
 class Bishop < Piece
+    include Slideable
+
+    def initialize(color, board, pos)
+        super
+        @symbol = :B
+    end
+
+    def valid_moves
+        get_diagonals(@pos).map {|m| if @board[m].color != @color && !move_into_check?(m)}.compact
+    end
 end
 
 class Queen < Piece

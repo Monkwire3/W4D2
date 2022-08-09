@@ -54,14 +54,14 @@ p "===-=-=-=-=-=-=-="
 b.populate_board
 b.print_board
 
-rook = Rook.new(:W, b, [0, 0])
-b[[0,0]] = rook
+bishop = Bishop.new(:W, b, [0, 0])
+b[[0,0]] = bishop
 b.print_board
 
 p "========"
 b.move_piece([0,0], [0,1])
 b.print_board
-p rook.valid_moves
-p rook.valid_moves.length
-p rook.pos
+p bishop.valid_moves
+p bishop.valid_moves.length
+p bishop.pos
 
