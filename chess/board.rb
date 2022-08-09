@@ -39,7 +39,7 @@ class Board
 
         piece = self[start_pos] # grid[0,0] = nil
         self[end_pos] = piece
-        self[start_pos] = nil # should be a new Null Piece
+        self[start_pos] = NullPiece.instance
     end
 
     def print_board
@@ -53,4 +53,11 @@ p "===-=-=-=-=-=-=-="
 #b.print_board
 b.populate_board
 b.print_board
-p b
+
+knight = Knight.new(:W, b, [0, 0])
+b[[0,0]] = knight
+b.print_board
+
+p "========"
+b.move_piece([0,0], [0,1])
+b.print_board

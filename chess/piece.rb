@@ -2,7 +2,7 @@ require_relative "stepable.rb"
 require "singleton"
 class Piece
 
-    attr_reader :color
+    attr_reader :color, :symbol
     #include Stepable
     def initialize(color, board, pos)
         @color = color
@@ -32,7 +32,6 @@ end
 
 class NullPiece < Piece
     include Singleton
-    attr_reader :symbol
     def initialize
         @symbol = :N
         @color = nil
@@ -66,6 +65,11 @@ end
 
 class Knight < Piece
     include Stepable
+
+    def initialize(color, board, pos)
+        super
+        @symbol = :K
+    end
 
     def valid_moves
         deltas = [[-1, -2], [1, -2], [2, -1], [-2, -1], [-2, 1], [2, 1], [-1, 2], [1, 2]]
