@@ -1,4 +1,5 @@
 require_relative "stepable.rb"
+require "singleton"
 class Piece
 
     attr_reader :color
@@ -30,7 +31,12 @@ class Piece
 end
 
 class NullPiece < Piece
+    include Singleton
+    attr_reader :symbol
     def initialize
+        @symbol = :N
+        @color = nil
+        @pos = nil
     end
 end
 

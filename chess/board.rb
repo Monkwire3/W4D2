@@ -9,12 +9,23 @@ class Board
         @grid = Array.new(8) {Array.new(8)}
     end
 
+
     def [](pos)
         return @grid[pos[1]][pos[0]]
     end
 
     def []=(pos, piece)
         @grid[pos[1]][pos[0]] = piece
+    end
+
+    def populate_board 
+        null_piece = NullPiece.instance
+        (0...@grid.length).each do |i|
+            (0...@grid.length).each do |j|
+                @grid[i][j] = null_piece
+            end
+        end
+
     end
 
     def dup
@@ -32,37 +43,14 @@ class Board
     end
 
     def print_board
-        puts @grid.map {|row| row.join(" ")}
+        puts @grid.map {|row| row.map(&:symbol).join(" ")}
     end
 
 end
 
 b = Board.new
-#knight = Knight.new(:W, b, [0,0])
-#knight2 = Knight.new(:B, b, [1,2])
-#knight3 = Knight.new(:B, b, [2,1])
-#b[[0,0]]=knight
-#b[[1,2]]=knight2
-#b[[2,1]]=knight3
-king = King.new(:W, b, [0,0])
-b[[0,0]]=king
-b.print_board
-#p b[[0,0]]
-#p '========'
-#p b[[0,1]]
-#b.move_piece([0,0],[0,1])
-#p b
-#p king.valid_moves
 p "===-=-=-=-=-=-=-="
-b2 = Board.new
-b2.grid = b.dup
-b2.print_board
-
-b2[[0,0]] = Knight.new(:W, b2, [0, 0])
-b2[[4, 4]] = Knight.new(:B, b2, [4, 4])
-
+#b.print_board
+b.populate_board
 b.print_board
-b2.print_board
-
-
-#p knight.valid_moves
+p b
