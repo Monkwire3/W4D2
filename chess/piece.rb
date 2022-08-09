@@ -1,8 +1,10 @@
 require_relative "stepable.rb"
+require_relative "slideable.rb"
 require "singleton"
 class Piece
 
-    attr_reader :color, :symbol
+    attr_reader :color, :symbol, :pos
+    attr_writer :pos
     #include Stepable
     def initialize(color, board, pos)
         @color = color
@@ -20,8 +22,8 @@ class Piece
         return []
     end
 
-    def pos=(val)
-    end
+    #def pos=(val)
+    #end
 
     private
 
@@ -44,6 +46,17 @@ class Pawn < Piece
 end
 
 class Rook < Piece
+    include Slideable
+
+    def initialize(color, board, pos)
+        super
+        @symbol = :R
+    end
+
+    def valid_moves
+        get_cross(@pos).map {|m| m if @board[m].color != @color && !move_into_check?(m)}.compact
+    end
+
 end
 
 class Bishop < Piece

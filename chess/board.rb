@@ -35,11 +35,11 @@ class Board
 
     def move_piece(start_pos, end_pos)
         raise "can't move null piece" if self[start_pos].is_a?(NullPiece)
-        #raise 'there is a piece there' if !self[end_pos].is_a?(NullPiece)
+        raise 'there is a piece there' if !self[end_pos].is_a?(NullPiece)
 
-        piece = self[start_pos] # grid[0,0] = nil
-        self[end_pos] = piece
+        self[start_pos] , self[end_pos] = self[end_pos], self[start_pos]
         self[start_pos] = NullPiece.instance
+        self[end_pos].pos = end_pos
     end
 
     def print_board
@@ -54,10 +54,14 @@ p "===-=-=-=-=-=-=-="
 b.populate_board
 b.print_board
 
-knight = Knight.new(:W, b, [0, 0])
-b[[0,0]] = knight
+rook = Rook.new(:W, b, [0, 0])
+b[[0,0]] = rook
 b.print_board
 
 p "========"
 b.move_piece([0,0], [0,1])
 b.print_board
+p rook.valid_moves
+p rook.valid_moves.length
+p rook.pos
+
